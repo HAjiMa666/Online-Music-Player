@@ -1,25 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+// 这一栏导入模块
+import React, { memo } from 'react';
+import { renderRoutes } from 'react-router-config';
+import { HashRouter } from 'react-router-dom';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
 
-export default App;
+// 这一栏导入自己的一些工具类模块
+import routes from './routers';
+
+// 这一栏导入相对应的组件
+import ZXAppFooter from "components/app-footer"
+import ZXAppHeader from "components/app-header"
+import { Provider } from 'react-redux';
+import store from "./store"
+
+
+export default memo(function App() {
+    return (
+        <Provider store={store}>
+            <HashRouter>
+                <ZXAppHeader />
+                {renderRoutes(routes)}
+                <ZXAppFooter />
+            </HashRouter>
+        </Provider>
+
+    )
+})
