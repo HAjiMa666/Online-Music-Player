@@ -22,7 +22,7 @@ const initialState = Map({
     originalRank: [],
 })
 
-// 这里将状态和行为进行一个关联
+// 这里将状态和行为进行一个关联s
 function reducer(state = initialState, action) {
     switch (action.type) {
         case CHANGE_BANNERS:

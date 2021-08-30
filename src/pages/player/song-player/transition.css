@@ -1,0 +1,25 @@
+.playerBar-enter {
+    transform: translateY(42px);
+}
+
+.playerBar-enter-active {
+    transform: translateY(0px);
+    transition: all .5s;
+}
+
+.playerBar-enter-done {
+    transform: translateY(0px);
+}
+
+.playerBar-exit {
+    transform: translateY(0px);
+}
+
+.playerBar-exit-active {
+    transform: translateY(42px);
+    transition: all .5s;
+}
+
+.playerBar-exit-done {
+    transform: translateY(42px);
+}

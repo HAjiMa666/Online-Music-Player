@@ -28,7 +28,7 @@ export default memo(function HRec() {
             songCards.map((item) => {
                 return (
                     <div className="song" key={item.id}>
-                        <SongCard img={resizeImg(item.coverImgUrl, 140)} description={item.description} id={item.id} playcount={formatNum(item.playCount)} name={item.name} />
+                        <SongCard img={resizeImg(item.picUrl, 140)} description={item.name} id={item.id} playcount={formatNum(item.playCount)} name={item.name} />
                     </div>
                 )
             })

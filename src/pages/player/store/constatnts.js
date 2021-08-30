@@ -1,0 +1,13 @@
+const GETSONG = "player/GETSONG";
+const GET_SONG_INFO = "player/GETSONGINFO";
+const CURRENTSONGINDEX = "player/CURRENTSONGINDEX";
+const PLAY_SEQUENCE = "player/PLAY_SEQUENCE";
+const GET_LYRIC = "player/GET_LYRIC";
+
+export {
+    GETSONG,
+    GET_SONG_INFO,
+    CURRENTSONGINDEX,
+    PLAY_SEQUENCE,
+    GET_LYRIC,
+}

@@ -10,6 +10,7 @@ import routes from './routers';
 // 这一栏导入相对应的组件
 import ZXAppFooter from "components/app-footer"
 import ZXAppHeader from "components/app-header"
+import Player from "./pages/player/song-player"
 import { Provider } from 'react-redux';
 import store from "./store"
 
@@ -21,6 +22,7 @@ export default memo(function App() {
                 <ZXAppHeader />
                 {renderRoutes(routes)}
                 <ZXAppFooter />
+                <Player />
             </HashRouter>
         </Provider>
 

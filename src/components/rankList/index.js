@@ -1,38 +1,46 @@
 import React, { memo } from 'react'
-import { useRef } from 'react'
 
 import resizeImg from "../../utils/resizeImg"
+import { getSongDetail, getSongUrl } from "../../pages/player/store/actionCreators"
 
 import { RankListWrapper } from "./styled"
+import { useDispatch } from 'react-redux'
 
 export default memo(function RankList(props) {
     const { name, coverImgUrl, tracks } = props.rankInfo;
     const imgCover = resizeImg(coverImgUrl, 80)
+    const true_tracks = tracks === undefined ? [] : tracks;
+
+    const dispatch = useDispatch();
+    const playMusic = (item) => {
+        dispatch(getSongDetail(item.id));
+        dispatch(getSongUrl(item.id));
+    }
 
     return (
         <RankListWrapper>
             <div className="header">
-                <a href="" className="cover"><img src={imgCover} alt="" /></a>
+                <span className="cover"><img src={imgCover} alt="" /></span>
                 <div className="headerRight">
-                    <a className="rankName">{name}</a>
+                    <span className="rankName">{name}</span>
                     <div className="icon">
-                        <a href="" className="play_icon"></a>
-                        <a href="" className="collect_icon"></a>
+                        <span className="play_icon"></span>
+                        <span className="collect_icon"></span>
                     </div>
                 </div>
             </div>
             <div className="list">
                 {
-                    tracks.map((item, index) => {
+                    true_tracks.map((item, index) => {
                         if (index < 10) {
                             return (
-                                <div className="list_content" id={item.name}>
+                                <div className="list_content" key={item.id}>
                                     <span className="No">{index + 1}</span>
-                                    <a className="song text-nowrap"><span className="text-nowrap">{item.name}</span></a>
-                                    <div className="icon" id={item.name}>
-                                        <a href="" className="play_icon"></a>
-                                        <a href="" className="add_icon"></a>
-                                        <a href="" className="collect_icon"></a>
+                                    <span className="song text-nowrap"><span className="text-nowrap">{item.name}</span></span>
+                                    <div className="icon">
+                                        <span className="play_icon" onClick={e => { playMusic(item) }}></span>
+                                        <span className="add_icon"></span>
+                                        <span className="collect_icon"></span>
                                     </div>
                                 </div>
                             )

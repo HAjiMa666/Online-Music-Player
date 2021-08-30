@@ -10,7 +10,7 @@ function getTopBanners() {
 // 请求热门推荐首页信息
 function getSongCard(limit) {
     return request({
-        url: `/top/playlist?limit=${limit}`
+        url: `/personalized?limit=${limit}`
     })
 }
 

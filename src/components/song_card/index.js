@@ -1,7 +1,4 @@
-import Item from 'antd/lib/list/Item';
 import React, { memo } from 'react'
-
-
 import {
     SongWrapper,
     Card,
@@ -9,14 +6,14 @@ import {
 
 
 export default memo(function SongCard(props) {
-    const { img, description, id, playcount, name } = props;
+    const { img, description, playcount, name } = props;
     return (
         <SongWrapper>
             <Card>
-                <a href="" className="songImg">
+                <span className="songImg">
                     <img src={img} alt={description} />
                     <span className="playcount"><i className="headphoneIcon"></i>{playcount}<i className="playIcon"></i></span>
-                </a>
+                </span>
                 <span className="description">{name}</span>
             </Card>
         </SongWrapper>

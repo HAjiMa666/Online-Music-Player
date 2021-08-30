@@ -1,11 +1,11 @@
-const CHANGE_BANNERS = "CHANGE_BANNERS";
-const CHANGE_SONGCARD = "CHANGE_SONGCARD";
-const CHANGE_NEWALBUM = "CHANGE_NEWALBUM";
-const GET_ALLRANK = "GET_ALLRANK";
+const CHANGE_BANNERS = "recommend/CHANGE_BANNERS";
+const CHANGE_SONGCARD = "recommend/CHANGE_SONGCARD";
+const CHANGE_NEWALBUM = "recommend/CHANGE_NEWALBUM";
+const GET_ALLRANK = "recommend/GET_ALLRANK";
 
-const ORIGINAL_RANK = "ORIGINAL_RANK";
-const UP_RANK = "UP_RANK";
-const NEW_RANK = "NEW_RANK";
+const ORIGINAL_RANK = "recommend/ORIGINAL_RANK";
+const UP_RANK = "recommend/UP_RANK";
+const NEW_RANK = "recommend/NEW_RANK";
 
 export {
     CHANGE_BANNERS,

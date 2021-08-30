@@ -61,7 +61,7 @@ const getSongCardAction = (limit) => {
     return (
         dispatch => {
             getSongCard(limit).then(res => {
-                dispatch(changeSongCardAction(res.data.playlists));
+                dispatch(changeSongCardAction(res.data.result));
             })
         }
     )
