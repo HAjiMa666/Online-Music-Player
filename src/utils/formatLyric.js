@@ -7,9 +7,9 @@
 
 const lyricEXP = /\[(\d{2}):(\d{2})\.(\d{2,3})\]/;
 function formatLyric(lyric) {
-    const lyricArr = lyric.split("\n");
+    const lyricArr = lyric && lyric.split("\n");
     const trueLyric = [];
-    lyricArr.forEach(item => {
+    lyricArr && lyricArr.forEach(item => {
         if (item) {
             const lyricObj = { time: null, content: null };
             const newLyric = lyricEXP.exec(item);

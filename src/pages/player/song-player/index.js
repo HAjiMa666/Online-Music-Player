@@ -6,16 +6,18 @@ import momentDurationFormatSetup from "moment-duration-format"
 import resizeImg from "@/utils/resizeImg"
 import getRandomSongNum from "@/utils/randomSongNum";
 import formatLyric from "@/utils/formatLyric";
-import { CSSTransition } from "react-transition-group"
+import { CSSTransition } from "react-transition-group";
+import { NavLink } from 'react-router-dom';
 
 import "./transition.css";
 import { Slider } from 'antd';
+import PlayList from "./playList";
 import {
     PlayerLeft,
     PlayerRight,
     PlayerWrapper
 } from "./style"
-import { useDispatch, useSelector } from 'react-redux';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 
 export default memo(function Player() {
     momentDurationFormatSetup(moment)
@@ -26,7 +28,8 @@ export default memo(function Player() {
     const [isChanging, setIsChanging] = useState(false);
     const [sequence, setSequence] = useState(0);
     const [content, setContent] = useState("");
-    const [isShow, setIsShow] = useState(true)
+    const [isShow, setIsShow] = useState(true);
+    const [playListShow, setPlayListShow] = useState(true);
 
     const playRef = useRef();
     const palyerBarRef = useRef();
@@ -36,7 +39,7 @@ export default memo(function Player() {
         songInfo: state.getIn(["player", "songInfo"]),
         currentSongIndex: state.getIn(["player", "currentSongIndex"]),
         lyrics: state.getIn(["player", "lyrics"]),
-    }))
+    }), shallowEqual)
 
     // 拿到歌曲详细信息
     useEffect(() => {
@@ -50,7 +53,8 @@ export default memo(function Player() {
 
     // 设置歌曲url
     useEffect(() => {
-        const time = songInfo[currentSongIndex] && songInfo[currentSongIndex].dt;
+        const time = (songInfo && songInfo[currentSongIndex]) && songInfo[currentSongIndex].dt;
+        console.log(time);
         setduration(time);
         playRef.current.src = playList[currentSongIndex] && playList[currentSongIndex][0].url;
         if (isplay)
@@ -58,7 +62,7 @@ export default memo(function Player() {
         else
             playRef.current.pause();
         // eslint-disable-next-line
-    }, [playList, currentSongIndex])
+    }, [playList, currentSongIndex, songInfo])
 
     // 播放功能
     const play = useCallback(() => {
@@ -78,7 +82,7 @@ export default memo(function Player() {
             setCurrentTime(e.target.currentTime);
             setprogress(newProgress)
             const lyric = formatLyric(lyrics[currentSongIndex]);
-            const currentContentIndex = lyric.findIndex((item, index, arr) => e.target.currentTime > item.time && e.target.currentTime < arr[index + 1].time);
+            const currentContentIndex = lyric.findIndex((item, index, arr) => e.target.currentTime > item.time && e.target.currentTime < (arr[index + 1] && arr[index + 1].time));
             const cnt = lyric[currentContentIndex] && lyric[currentContentIndex].content;
             setContent(cnt);
         }
@@ -100,8 +104,6 @@ export default memo(function Player() {
     // 在拖动歌曲进度条结束的时候,对应的变化
     const afterChange = useCallback((value) => {
         if (isChanging) {
-            console.log("我触发了");
-            setprogress(value);
             playRef.current.currentTime = (value / 100) * (duration / 1000);
             setCurrentTime((value / 100) * (duration / 1000));
             if (isplay === false) {
@@ -153,7 +155,7 @@ export default memo(function Player() {
                 if (playList.length === 1) {
                     dispatch(changeCurrentSongIndexAction(currentSongIndex));
                     playRef.current.play();
-                } else if (currentSongIndex === playList.length - 1) {
+                } else if ((tag === 0 || tag === 2) && currentSongIndex === playList.length - 1) {
                     dispatch(changeCurrentSongIndexAction(0));
                 } else if (tag === 0 || tag === 2)
                     dispatch(changeCurrentSongIndexAction(currentSongIndex + 1));
@@ -189,17 +191,20 @@ export default memo(function Player() {
                     isplay={isplay}
                     sequence={sequence}>
                     <span className="lyric">{content}</span>
-                    <div className="wrap-v2 content">
+                    <div className="content">
+                        {
+                            playListShow && <PlayList></PlayList>
+                        }
                         <div className="play">
                             <span className="leftIcon" onClick={e => playLeft()}></span>
                             <span className="playIcon" onClick={e => play()}></span>
                             <span className="rightIcon" onClick={e => playRight()}></span>
                         </div>
                         <div className="songInfo">
-                            <div className="songCover"></div>
+                            <NavLink exact to="/discover/player"><div className="songCover"></div></NavLink>
                             <div className="song">
                                 <div className="info">
-                                    <span className="title">{songInfo[currentSongIndex] && songInfo[currentSongIndex].name}</span>
+                                    <NavLink exact to="/discover/player"><span className="title">{songInfo[currentSongIndex] && songInfo[currentSongIndex].name}</span></NavLink>
                                     <span className="singer">{songInfo[currentSongIndex] && songInfo[currentSongIndex].ar && songInfo[currentSongIndex].ar[0].name}</span>
                                     <span className="link"></span>
                                 </div>
@@ -226,7 +231,7 @@ export default memo(function Player() {
                             <div className="featureRight">
                                 <span className="voiceIcon"></span>
                                 <span className="pTypeIcon" onClick={e => changePlaySequence()}></span>
-                                <span className="playListIcon"></span>
+                                <span className="playListIcon" onClick={() => setPlayListShow(!playListShow)} ><span>{songInfo.length}</span></span>
                             </div>
                         </div>
                     </div>
@@ -245,6 +250,5 @@ export default memo(function Player() {
                 </PlayerRight>
             </PlayerWrapper >
         </CSSTransition>
-
     )
 })

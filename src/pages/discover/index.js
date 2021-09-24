@@ -12,7 +12,6 @@ import {
 
 
 export default memo(function ZXDiscover(props) {
-    console.log(props);
     const { route } = props;
 
     const childrenLink = () => {

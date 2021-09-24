@@ -31,14 +31,24 @@ const changeLyricAction = (lyric) => ({
 
 const getSongDetail = (id) => {
     return (dispatch, getState) => {
+        const localPlayList = JSON.parse(localStorage.getItem("songInfo"));
         const songInfo = getState().getIn(["player", "songInfo"]);
         const lyrics = getState().getIn(["player", "lyrics"]);
-        const songIndex = songInfo.findIndex(item => item.id === id);
-        const newSongInfo = [...songInfo];
+        let songIndex = -1;
+        let newSongInfo = [];
+        if (localPlayList === null) {
+            songIndex = songInfo.findIndex(item => item.id === id);
+            newSongInfo = [...songInfo];
+        } else {
+            songIndex = localPlayList.findIndex(item => item.id === id)
+            newSongInfo = [...localPlayList];
+        }
+
         const newLyrics = [...lyrics];
         requestSongDetail(id).then(res => {
             if (songIndex === -1) {
                 newSongInfo.push(res.data.songs[0]);
+                localStorage.setItem("songInfo", JSON.stringify(newSongInfo));
                 dispatch(changeSongInfo(newSongInfo))
             } else {
                 dispatch(changeSongInfo(newSongInfo))

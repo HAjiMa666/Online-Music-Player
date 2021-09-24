@@ -9,6 +9,7 @@ import ZXArtist from '../pages/discover/children_Pages/artist';
 import ZXdjRadio from '../pages/discover/children_Pages/djRadio';
 import ZXplayList from '../pages/discover/children_Pages/playList';
 import ZXRankList from '../pages/discover/children_Pages/rankList';
+import ZXPlayer from "../pages/player/song-page/index"
 
 
 
@@ -68,6 +69,10 @@ const routes = [
                 title: "新碟上架",
                 component: ZXAlbum,
             },
+            {
+                path: `/discover/player`,
+                component: ZXPlayer,
+            }
         ]
     },
     {
@@ -81,7 +86,8 @@ const routes = [
     {
         path: "/download",
         component: ZXClient,
-    }
+    },
+
 ];
 
 export default routes;

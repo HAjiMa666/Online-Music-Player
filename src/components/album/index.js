@@ -35,8 +35,8 @@ export default memo(function Album(props) {
             iconPositionY={iconPositionY}>
             <div className="content">
                 <span className="albumCover"></span>
-                <a className="songTitle">{name}</a>
-                <a className="author">{singer}</a>
+                <span className="songTitle">{name}</span>
+                <span className="author">{singer}</span>
             </div>
         </AlbumWrapper>
     )

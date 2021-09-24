@@ -16,12 +16,20 @@ export default memo(function ZXAppHeader() {
     const showItem = () => {
         return (
             headLink.map((item) => {
-                if (item.title === "商城" || item.title === "音乐人")
+                if (item.title === "商城" || item.title === "音乐人") {
                     return <a href={item.path} target="_blank" rel="noreferrer" key={item.path} className="link">{item.title}</a>
-                return <NavLink exact to={item.path} key={item.path} className="link">
-                    {item.title}
-                    <i className="icon sprite_01"></i>
-                </NavLink>
+                }
+                if (item.title === "发现音乐") {
+                    return <NavLink to={item.path} key={item.path} className="link">
+                        {item.title}
+                        <i className="icon sprite_01"></i>
+                    </NavLink>
+                } else {
+                    return <NavLink exact to={item.path} key={item.path} className="link">
+                        {item.title}
+                        <i className="icon sprite_01"></i>
+                    </NavLink>
+                }
             })
         )
     }

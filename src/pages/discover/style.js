@@ -6,26 +6,26 @@ const DiscoverWrapper = styled.div`
 
 const HeadChildLink = styled.div`
         height: 30px;
+        width: 100%;
         display: flex;
         justify-content: center;
         align-items: center;
-        margin-left: -310px;
+        margin-left: -70px;
         a{
             text-align: center;
             font-size: 14px;
             height: 80%;
-            margin-right: 20px;
+            width: 100px;
             color: #fff;
+            padding: 0 10px;
             :hover{
                 background-color: #9b0909;
                 text-decoration: none;
-                border-radius: 10px;
-                padding: 0 3px;
+                border-radius: 5px;
             }
         }
         .active{
-            padding: 0 3px;
-            border-radius: 10px;
+            border-radius: 5px;
             background-color:#9b0909;
         }
 `

@@ -25,6 +25,5 @@ export default memo(function App() {
                 <Player />
             </HashRouter>
         </Provider>
-
     )
 })

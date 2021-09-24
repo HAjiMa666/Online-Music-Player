@@ -1,5 +1,5 @@
 .playerBar-enter {
-    transform: translateY(42px);
+    transform: translateY(0px);
 }
 
 .playerBar-enter-active {
@@ -20,6 +20,12 @@
     transition: all .5s;
 }
 
+
 .playerBar-exit-done {
     transform: translateY(42px);
+    transition: all .5s;
+}
+
+.playerBar-exit-done:hover {
+    transform: translateY(0px);
 }

@@ -45,6 +45,7 @@ export default memo(function RankList(props) {
                                 </div>
                             )
                         }
+                        return null;
                     })
                 }
 
