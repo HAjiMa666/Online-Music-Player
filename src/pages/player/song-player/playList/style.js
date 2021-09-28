@@ -10,6 +10,12 @@ const PlayListWrapper = styled.div`
     color: #fff;
     background-color: #ccc;
     display: flex;
+    border-radius: 10px 10px 0px 0px;
+    overflow: hidden;
+    box-shadow: 
+                0px 2px 2px rgba(0,0,0,.3),
+                0px 4px 4px rgba(0,0,0,.3),
+                0px 8px 8px rgba(0,0,0,.3);
 `;
 const PlayListLeft = styled.div`
     flex: 2;
@@ -55,6 +61,7 @@ const PlayListLeft = styled.div`
             }
         }
         .delete{
+            cursor: pointer;
             width: 80px;
             ::before{
                 width: 13px;

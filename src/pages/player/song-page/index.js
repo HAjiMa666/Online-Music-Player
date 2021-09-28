@@ -15,14 +15,13 @@ export default memo(function ZXPlayer() {
 
     const [isShow, setisShow] = useState(false);
 
-    const { lyrics, currentSongIndex, songInfo } = useSelector(state => ({
+    const { lyrics, currentSongIndex } = useSelector(state => ({
         lyrics: state.getIn(["player", "lyrics"]),
         currentSongIndex: state.getIn(["player", "currentSongIndex"]),
-        songInfo: state.getIn(["player", "songInfo"]),
     }), shallowEqual)
-    console.log(songInfo[currentSongIndex]);
-    const alarInfo = (songInfo !== undefined) && songInfo[currentSongIndex];
-    const { al, ar } = alarInfo;
+    let trueSongInfo = JSON.parse(localStorage.getItem("songInfo"));
+
+    const { name, ar, al } = trueSongInfo[currentSongIndex];
     const songCover = resizeImg(al.picUrl, 130);
     const lyric = formatLyric(lyrics && lyrics[currentSongIndex]);
     return (
@@ -30,19 +29,19 @@ export default memo(function ZXPlayer() {
             <div className="wrap-v1">
                 <SongPageLeft className="wrap-v2">
                     <div className="left">
-                        <span className="albumCover"><img src={songCover} alt={al.name} /></span>
+                        <span className="albumCover"><img src={songCover} alt={name} /></span>
                         <a href="#/">生成外链播放器</a>
                     </div>
                     <div className="right">
                         <div className="songInfo">
                             <div className="head">
                                 <span className="songType"></span>
-                                <span className="songTitle">{al.name}</span>
+                                <span className="songTitle">{name}</span>
                                 <span className="mvIcon"></span>
                             </div>
                             <div className="footer">
                                 <div className="singer">歌手 <a href="#/">{ar && ar[0].name}</a></div>
-                                <div className="album">所属专辑 <a href="#/">XXX</a></div>
+                                <div className="album">所属专辑 <a href="#/">{al.name}</a></div>
                             </div>
                         </div>
                         <div className="operatorIcon">

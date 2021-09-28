@@ -1,6 +1,6 @@
 import React, { memo, useCallback, useEffect, useRef, useState } from 'react'
 
-import { getSongUrl, getSongDetail, changePlaySequenceAction, changeCurrentSongIndexAction } from "../store/actionCreators"
+import { getSongUrl, getSongDetail, changePlaySequenceAction, changeCurrentSongIndexAction, getSongLyric, showlocalSongData } from "../store/actionCreators"
 import moment from 'moment'
 import momentDurationFormatSetup from "moment-duration-format"
 import resizeImg from "@/utils/resizeImg"
@@ -29,7 +29,7 @@ export default memo(function Player() {
     const [sequence, setSequence] = useState(0);
     const [content, setContent] = useState("");
     const [isShow, setIsShow] = useState(true);
-    const [playListShow, setPlayListShow] = useState(true);
+    const [playListShow, setPlayListShow] = useState(false);
 
     const playRef = useRef();
     const palyerBarRef = useRef();
@@ -41,15 +41,17 @@ export default memo(function Player() {
         lyrics: state.getIn(["player", "lyrics"]),
     }), shallowEqual)
 
-    // 拿到歌曲详细信息
+    // 第一次歌曲加载
     useEffect(() => {
-        dispatch(getSongDetail(1847250546));
+        if (localStorage.getItem("songInfo") === null) {
+            dispatch(getSongDetail(1847250546));
+            dispatch(getSongUrl(1847250546));
+            dispatch(getSongLyric(1847250546))
+        } else {
+            dispatch(showlocalSongData());
+        }
     }, [dispatch]);
 
-    //拿到歌曲url
-    useEffect(() => {
-        dispatch(getSongUrl(1847250546));
-    }, [dispatch])
 
     // 设置歌曲url
     useEffect(() => {

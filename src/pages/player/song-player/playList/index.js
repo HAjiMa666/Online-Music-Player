@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React, { memo, useEffect } from 'react'
 
 import {
     PlayListWrapper,
@@ -6,25 +6,43 @@ import {
     PlayListRight
 } from "./style"
 import Song from "./songCpn"
-import { useSelector } from 'react-redux'
+import { shallowEqual, useSelector } from 'react-redux'
+import { useRef } from 'react'
+import { useDispatch } from 'react-redux'
+import { removeAllSongInfo } from '../../store/actionCreators'
 
 export default memo(function PlayList() {
-    const { songInfo } = useSelector(state => ({
+    const { songInfo, currentSongIndex } = useSelector(state => ({
         songInfo: state.getIn(["player", "songInfo"]),
-    }));
+        currentSongIndex: state.getIn(["player", "currentSongIndex"]),
+    }), shallowEqual);
+    const songList = useRef();
+    const dispatch = useDispatch();
+    useEffect(() => {
+        [...songList.current.children].map(item => {
+            item.classList.remove("active")
+            return null;
+        })
+        songList.current.children[currentSongIndex] && songList.current.children[currentSongIndex].classList.add("active");
+    }, [currentSongIndex])
+    function removeLocalData() {
+        localStorage.removeItem("songInfo");
+        localStorage.removeItem("playList");
+        dispatch(removeAllSongInfo());
+    }
     return (
         <PlayListWrapper className="wrap-v2">
             <PlayListLeft>
                 <header>
                     <span className="playList">播放列表 ({songInfo.length})</span>
                     <span className="collect">收藏全部</span>
-                    <span className="delete">清除</span>
+                    <span className="delete" onClick={e => removeLocalData()}>清除</span>
                 </header>
-                <div className="songList">
+                <div className="songList" ref={songList}>
                     {
-                        songInfo.map((item, index) => {
+                        songInfo.map(item => {
                             return (
-                                <Song info={songInfo[index]} key={songInfo[index].id} />
+                                <Song info={item} key={item.id} />
                             )
                         })
                     }

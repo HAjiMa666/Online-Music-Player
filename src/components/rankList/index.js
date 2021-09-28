@@ -1,7 +1,7 @@
 import React, { memo } from 'react'
 
 import resizeImg from "../../utils/resizeImg"
-import { getSongDetail, getSongUrl } from "../../pages/player/store/actionCreators"
+import { getSongDetail, getSongUrl, getSongLyric } from "../../pages/player/store/actionCreators"
 
 import { RankListWrapper } from "./styled"
 import { useDispatch } from 'react-redux'
@@ -14,6 +14,7 @@ export default memo(function RankList(props) {
     const dispatch = useDispatch();
     const playMusic = (item) => {
         dispatch(getSongDetail(item.id));
+        dispatch(getSongLyric(item.id));
         dispatch(getSongUrl(item.id));
     }
 
