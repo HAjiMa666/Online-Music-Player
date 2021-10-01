@@ -46,7 +46,7 @@ export default memo(function Player() {
         if (localStorage.getItem("songInfo") === null) {
             dispatch(getSongDetail(1847250546));
             dispatch(getSongUrl(1847250546));
-            dispatch(getSongLyric(1847250546))
+            dispatch(getSongLyric(1847250546));
         } else {
             dispatch(showlocalSongData());
         }
@@ -59,18 +59,24 @@ export default memo(function Player() {
         console.log(time);
         setduration(time);
         playRef.current.src = playList[currentSongIndex] && playList[currentSongIndex][0].url;
-        if (isplay)
-            playRef.current.play();
-        else
-            playRef.current.pause();
-        // eslint-disable-next-line
+        playRef.current.play()
+            .then(() => {
+                setIsplay(true);
+                console.log("我能够播放了");
+            })
+            .catch(() => {
+                setIsplay(false);
+                playRef.current.pause();
+            })
     }, [playList, currentSongIndex, songInfo])
 
     // 播放功能
     const play = useCallback(() => {
         if (!isplay) {
-            playRef.current.play();
-            setIsplay(true)
+            playRef.current.play().catch(error => {
+                console.log("我捕捉到了我的错误" + error);
+            });
+            setIsplay(true);
         } else {
             playRef.current.pause();
             setIsplay(false);
@@ -83,8 +89,14 @@ export default memo(function Player() {
             const newProgress = (currentTime / (duration / 1000)) * 100;
             setCurrentTime(e.target.currentTime);
             setprogress(newProgress)
-            const lyric = formatLyric(lyrics[currentSongIndex]);
-            const currentContentIndex = lyric.findIndex((item, index, arr) => e.target.currentTime > item.time && e.target.currentTime < (arr[index + 1] && arr[index + 1].time));
+            const lyric = lyrics[currentSongIndex] && formatLyric(lyrics[currentSongIndex]) || [];
+            const currentContentIndex = lyric.findIndex((item, index, arr) => {
+                console.log(item);
+                return (
+                    e.target.currentTime > item.time &&
+                    e.target.currentTime < (arr[index + 1] && arr[index + 1].time)
+                );
+            })
             const cnt = lyric[currentContentIndex] && lyric[currentContentIndex].content;
             setContent(cnt);
         }
@@ -174,10 +186,14 @@ export default memo(function Player() {
     //播放上一首
     const playLeft = () => {
         chgSongBySeq(sequence, 1);
+        setIsplay(true);
+        playRef.current.play();
     }
     // 播放下一首
     const playRight = () => {
         chgSongBySeq(sequence, 0);
+        setIsplay(true);
+        playRef.current.play();
     }
 
     return (
@@ -192,7 +208,9 @@ export default memo(function Player() {
                     cover={resizeImg(songInfo[currentSongIndex] && songInfo[currentSongIndex].al && songInfo[currentSongIndex].al.picUrl, 34)}
                     isplay={isplay}
                     sequence={sequence}>
-                    <span className="lyric">{content}</span>
+                    <span className="lyric">
+                        {content}
+                    </span>
                     <div className="content">
                         {
                             playListShow && <PlayList></PlayList>

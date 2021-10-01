@@ -104,8 +104,9 @@ const getSongLyric = (id) => {
 const showlocalSongData = () => {
     return (dispatch) => {
         const songInfo = JSON.parse(localStorage.getItem("songInfo"));
+        const playList = JSON.parse(localStorage.getItem("playList"));
         dispatch(changeSongInfo(songInfo));
-        dispatch(changeSong(JSON.parse(localStorage.getItem("playList"))));
+        dispatch(changeSong(playList));
         const newLyrics = [];
         songInfo.map(item => {
             requestLyric(item.id).then(res => {
@@ -122,6 +123,7 @@ const removeAllSongInfo = () => {
         dispatch(changeSongInfo([]));
         dispatch(changeSong([]));
         dispatch(changeLyricAction([]));
+        dispatch(changeCurrentSongIndexAction(0));
     }
 }
 
@@ -130,6 +132,7 @@ const removeSong = (id) => {
         const lyrics = getState().getIn(["player", "lyrics"]);
         const songInfo = getState().getIn(["player", "songInfo"]);
         const playList = getState().getIn(["player", "playList"]);
+        const currentSongIndex = getState().getIn(["player", "currentSongIndex"]);
         let lyricID = 0;
         const newSongInfo = songInfo.filter((item, index) => {
             if (item.id === id)
@@ -152,6 +155,7 @@ const removeSong = (id) => {
         dispatch(changeSongInfo(newSongInfo));
         dispatch(changeSong(newPlayList));
         dispatch(changeLyricAction(newLyrics));
+        dispatch(changeCurrentSongIndexAction(currentSongIndex - 1));
         localStorage.setItem("songInfo", JSON.stringify(newSongInfo));
         localStorage.setItem("playList", JSON.stringify(newPlayList));
     }

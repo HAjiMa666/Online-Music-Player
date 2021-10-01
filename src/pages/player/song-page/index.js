@@ -19,10 +19,10 @@ export default memo(function ZXPlayer() {
         lyrics: state.getIn(["player", "lyrics"]),
         currentSongIndex: state.getIn(["player", "currentSongIndex"]),
     }), shallowEqual)
-    let trueSongInfo = JSON.parse(localStorage.getItem("songInfo"));
+    let trueSongInfo = JSON.parse(localStorage.getItem("songInfo")) || [];
 
-    const { name, ar, al } = trueSongInfo[currentSongIndex];
-    const songCover = resizeImg(al.picUrl, 130);
+    const { name, ar, al } = trueSongInfo[currentSongIndex] || {};
+    const songCover = al && resizeImg(al.picUrl, 130);
     const lyric = formatLyric(lyrics && lyrics[currentSongIndex]);
     return (
         <SongPageWrapper>
@@ -41,7 +41,7 @@ export default memo(function ZXPlayer() {
                             </div>
                             <div className="footer">
                                 <div className="singer">歌手 <a href="#/">{ar && ar[0].name}</a></div>
-                                <div className="album">所属专辑 <a href="#/">{al.name}</a></div>
+                                <div className="album">所属专辑 <a href="#/">{al && al.name}</a></div>
                             </div>
                         </div>
                         <div className="operatorIcon">
@@ -59,12 +59,10 @@ export default memo(function ZXPlayer() {
                                 lyric.map((item, index) => {
                                     if (isShow) {
                                         return (
-                                            <div key={item.time}>{item.content}</div>
+                                            <div key={item.time + index}>{item.content}</div>
                                         )
                                     } else if (index < 10) {
-                                        return (
-                                            <div key={item.time}>{item.content}</div>
-                                        )
+                                        return <div key={item.time + index}>{item.content}</div>
                                     }
                                     return null;
                                 })

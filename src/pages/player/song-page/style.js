@@ -146,6 +146,13 @@ const SongPageLeft = styled.section`
                 background-position: 0px -1466px;
             }
         }
+        .lyric{
+            button{
+                position: relative;
+                left: -7px;
+                top: 0;
+            }
+        }
     }
 `
 
