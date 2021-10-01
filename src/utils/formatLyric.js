@@ -16,7 +16,6 @@ function formatLyric(lyric) {
             const minute = newLyric[1] * 60 * 1000;
             const second = newLyric[2] * 1000;
             const totalTime = (minute + second + newLyric[3] * 1) / 1000;
-            console.log(newLyric, totalTime);
             const content = item.replace(lyricEXP, "").trim();
             lyricObj.time = totalTime;
             lyricObj.content = content;

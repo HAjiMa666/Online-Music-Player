@@ -30,6 +30,7 @@ export default memo(function Player() {
     const [content, setContent] = useState("");
     const [isShow, setIsShow] = useState(true);
     const [playListShow, setPlayListShow] = useState(false);
+    const [lyricContentIndex, setLyricContentIndex] = useState(0);
 
     const playRef = useRef();
     const palyerBarRef = useRef();
@@ -91,13 +92,13 @@ export default memo(function Player() {
             setprogress(newProgress)
             const lyric = lyrics[currentSongIndex] && formatLyric(lyrics[currentSongIndex]) || [];
             const currentContentIndex = lyric.findIndex((item, index, arr) => {
-                console.log(item);
                 return (
                     e.target.currentTime > item.time &&
                     e.target.currentTime < (arr[index + 1] && arr[index + 1].time)
                 );
             })
             const cnt = lyric[currentContentIndex] && lyric[currentContentIndex].content;
+            setLyricContentIndex(currentContentIndex);
             setContent(cnt);
         }
     }
@@ -213,7 +214,7 @@ export default memo(function Player() {
                     </span>
                     <div className="content">
                         {
-                            playListShow && <PlayList></PlayList>
+                            playListShow && <PlayList lyricIndex={lyricContentIndex}></PlayList>
                         }
                         <div className="play">
                             <span className="leftIcon" onClick={e => playLeft()}></span>
@@ -272,3 +273,4 @@ export default memo(function Player() {
         </CSSTransition>
     )
 })
+

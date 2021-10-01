@@ -88,6 +88,7 @@ const PlayListLeft = styled.div`
 `;
 
 const PlayListRight = styled.div`
+    height: 300px;
     flex: 1;
     background-color: #223238;
 `;
