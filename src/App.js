@@ -1,5 +1,5 @@
 // 这一栏导入模块
-import React, { memo } from 'react';
+import React, { memo, Suspense } from 'react';
 import { renderRoutes } from 'react-router-config';
 import { HashRouter } from 'react-router-dom';
 
@@ -20,7 +20,9 @@ export default memo(function App() {
         <Provider store={store}>
             <HashRouter>
                 <ZXAppHeader />
-                {renderRoutes(routes)}
+                <Suspense fallback={<h1>加载中,请等待</h1>}>
+                    {renderRoutes(routes)}
+                </Suspense>
                 <ZXAppFooter />
                 <Player />
             </HashRouter>

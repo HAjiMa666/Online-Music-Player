@@ -67,22 +67,28 @@ export default memo(function Player() {
             })
             .catch(() => {
                 setIsplay(false);
-                playRef.current.pause();
+                playRef.current && playRef.current.pause();
             })
     }, [playList, currentSongIndex, songInfo])
 
     // 播放功能
     const play = useCallback(() => {
         if (!isplay) {
-            playRef.current.play().catch(error => {
+            playRef.current.play().then(() => {
+                setIsplay(true);
+            }).catch(error => {
+                const currentSongID = songInfo[currentSongIndex].id;
+                const expiredID = currentSongIndex;
+                setIsplay(false);
                 console.log("我捕捉到了我的错误" + error);
+                dispatch(getSongUrl(currentSongID, expiredID))
             });
-            setIsplay(true);
+
         } else {
             playRef.current.pause();
             setIsplay(false);
         }
-    }, [isplay])
+    }, [isplay, currentSongIndex, dispatch, songInfo])
 
     // 设置歌曲的播放时间
     const playTime = (e) => {
@@ -90,7 +96,7 @@ export default memo(function Player() {
             const newProgress = (currentTime / (duration / 1000)) * 100;
             setCurrentTime(e.target.currentTime);
             setprogress(newProgress)
-            const lyric = lyrics[currentSongIndex] && formatLyric(lyrics[currentSongIndex]) || [];
+            const lyric = (lyrics[currentSongIndex] && formatLyric(lyrics[currentSongIndex])) || [];
             const currentContentIndex = lyric.findIndex((item, index, arr) => {
                 return (
                     e.target.currentTime > item.time &&

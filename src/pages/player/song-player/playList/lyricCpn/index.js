@@ -1,4 +1,4 @@
-import React, { memo, useEffect } from 'react'
+import React, { Fragment, memo, useEffect } from 'react'
 
 import { LyricWrapper } from './style'
 
@@ -28,10 +28,10 @@ export default memo(function Lyric(props) {
                 {
                     newLyric.map(item => {
                         return (
-                            <>
+                            <Fragment key={item.content + item.time}>
                                 <span>{item.content}</span>
                                 <br />
-                            </>
+                            </Fragment>
                         )
                     })
                 }

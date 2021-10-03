@@ -1,16 +1,29 @@
+import React from 'react';
 import { Redirect } from 'react-router-dom';
-import ZXFriends from '../pages/friends';
-import ZXMine from '../pages/mine';
-import ZXClient from '../pages/downloadClient';
-import ZXDiscover from "../pages/discover"
-import ZXRecommend from '../pages/discover/children_Pages/recommend';
-import ZXAlbum from '../pages/discover/children_Pages/album';
-import ZXArtist from '../pages/discover/children_Pages/artist';
-import ZXdjRadio from '../pages/discover/children_Pages/djRadio';
-import ZXplayList from '../pages/discover/children_Pages/playList';
-import ZXRankList from '../pages/discover/children_Pages/rankList';
-import ZXPlayer from "../pages/player/song-page/index"
 
+// import ZXFriends from '../pages/friends';
+// import ZXMine from '../pages/mine';
+// import ZXClient from '../pages/downloadClient';
+// import ZXDiscover from "../pages/discover"
+// import ZXRecommend from '../pages/discover/children_Pages/recommend';
+// import ZXAlbum from '../pages/discover/children_Pages/album';
+// import ZXArtist from '../pages/discover/children_Pages/artist';
+// import ZXdjRadio from '../pages/discover/children_Pages/djRadio';
+// import ZXplayList from '../pages/discover/children_Pages/playList';
+// import ZXRankList from '../pages/discover/children_Pages/rankList';
+// import ZXPlayer from "../pages/player/song-page/index"
+
+const ZXFriends = React.lazy(_ => import("../pages/friends"));
+const ZXMine = React.lazy(_ => import('../pages/mine'));
+const ZXClient = React.lazy(_ => import("../pages/downloadClient"));
+const ZXDiscover = React.lazy(_ => import("../pages/discover"));
+const ZXRecommend = React.lazy(_ => import("../pages/discover/children_Pages/recommend"));
+const ZXAlbum = React.lazy(_ => import("../pages/discover/children_Pages/album"));
+const ZXArtist = React.lazy(_ => import("../pages/discover/children_Pages/artist"));
+const ZXdjRadio = React.lazy(_ => import("../pages/discover/children_Pages/djRadio"));
+const ZXplayList = React.lazy(_ => import("../pages/discover/children_Pages/playList"));
+const ZXRankList = React.lazy(_ => import("../pages/discover/children_Pages/rankList"));
+const ZXPlayer = React.lazy(_ => import("../pages/player/song-page/index"));
 
 
 // 在路由中,不仅可以返回组件,同时也可以返回一个render函数,到时候,他会执行render函数

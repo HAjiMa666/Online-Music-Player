@@ -57,10 +57,17 @@ const getSongDetail = (id) => {
     }
 }
 
-const getSongUrl = (id) => {
+/**
+ * 
+ * @param {*} id 歌曲id
+ * @param {*} expiredID  过期的音乐URL,即playList中的currentSonIndex
+ * @returns 
+ */
+const getSongUrl = (id, expiredID = -1) => {
     return (dispatch, getState) => {
         const localPlayList = JSON.parse(localStorage.getItem("playList"));
         const playList = getState().getIn(["player", "playList"]);
+        // const currentSongIndex = getState().getIn(["player", "currentSongIndex"]);
         let newPlayList = [];
         let songIndex = 0;
         if (localPlayList === null) {
@@ -77,7 +84,13 @@ const getSongUrl = (id) => {
                 dispatch(changeCurrentSongIndexAction(newPlayList.length - 1));
                 dispatch(changeSong(newPlayList))
             })
-        } else {//找到了歌曲Id,不需要计入,直接进行派发
+        } else if (expiredID !== -1) {
+            requestSongUrl(id).then(res => {
+                const unexpiredPlayList = [...newPlayList];
+                unexpiredPlayList[expiredID] = res.data.data;
+                dispatch(changeSong(unexpiredPlayList));
+            })
+        } else if (expiredID === -1) {//找到了歌曲Id,不需要计入,直接进行派发
             dispatch(changeCurrentSongIndexAction(songIndex));
             dispatch(changeSong(newPlayList))
         }

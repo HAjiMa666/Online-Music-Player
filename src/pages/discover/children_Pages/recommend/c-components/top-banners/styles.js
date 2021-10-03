@@ -26,6 +26,7 @@ const BannerRight = styled.div`
 const ChangeButton = styled.div`
     position: relative;
     height: 100%;
+    cursor: pointer;
     .changeBtnLeft{
         text-indent:-9999px;
         position: absolute;
@@ -34,7 +35,7 @@ const ChangeButton = styled.div`
         height: 50px;
         background-color: red;
         background: url(${radioBtn}) no-repeat;
-        background-position: 0 -20px;
+        background-position: 5px -20px;
         transition: all 0.2s;
         :hover{
             background-color: #ccc;
@@ -46,7 +47,7 @@ const ChangeButton = styled.div`
         height: 50px;
         background: url(${radioBtn}) no-repeat;
         position: absolute;
-        background-position: -20px -20px;
+        background-position: -24px -20px;
         transform: translate(50px,100px);
         transition: all 0.2s;
         :hover{
