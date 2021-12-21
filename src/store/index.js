@@ -6,8 +6,8 @@ import { createStore, applyMiddleware, compose } from "redux"
 import reduxThunkMiddleWare from "redux-thunk";
 import zReducer from "./reducer";
 
-
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({ trace: true }) || compose;
+// window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({ trace: true }) ||
+const composeEnhancers = compose;
 const storeEnhancer = applyMiddleware(reduxThunkMiddleWare);
 
 // 在引用中间件后,在状态容器中,你得使用composeEnhancers将应用的中间件进行一个包裹,再往里面传递,在这个函数的定义内,第二个参数传递就是composeEnhancers
